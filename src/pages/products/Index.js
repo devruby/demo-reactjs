@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Link} from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from 'react-router-dom';
+import SearchTable from './SearchTable';
 
 // Xóa một sản phẩm
 
@@ -54,7 +55,7 @@ class Index extends Component {
     };
 
     // Xóa sản phẩm
-    deleteProduct = ({id}) => {
+    deleteProduct = ({ id }) => {
         let list = JSON.parse(localStorage.getItem('list'));
         list = list.filter(item => item.id !== id);
         localStorage.setItem('list', JSON.stringify(list));
@@ -64,7 +65,7 @@ class Index extends Component {
     };
 
     render() {
-        let {list} = this.state; // let list = this.state.list
+        let { list } = this.state; // let list = this.state.list
         let _self = this;
         let get_data = list.map(function (currentValue, index, arr) {
             return (
@@ -74,9 +75,10 @@ class Index extends Component {
                         <td>{currentValue.name}</td>
                         <td>{currentValue.status == 1 ? 'ẩn' : 'Hiện'}</td>
                         <td>
-                            <Link to={`/product/form/${currentValue.id}`} className="btn-light btn"> Chỉnh sửa</Link>
+                            <Link to={`/product/form/${currentValue.id}`}
+                                className="btn-light btn"> Chỉnh sửa</Link>
                             <button className="btn-dark btn"
-                                onClick={() => _self.deleteProduct({'id': currentValue.id})}> Xóa
+                                onClick={() => _self.deleteProduct({ 'id': currentValue.id })}> Xóa
                             </button>
                         </td>
                     </tr>
@@ -96,47 +98,25 @@ class Index extends Component {
                         <h4 className="mb-1 mt-0">Danh sách sản phẩm</h4>
                     </div>
                 </div>
-
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="card">
                             <div className="card-body">
                                 <div className="row">
-                                    <div className="col-lg-3">
-                                        <div className="form-group">
-                                            <label htmlFor="">
-                                                Tên sản phẩm
-                                            </label>
-                                            <input type="text" className="form-control" name="name"
-                                                placeholder="Nhập họ tên"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="form-group">
-                                            <label htmlFor="">
-                                                Trạng thái
-                                            </label>
-                                            <select name="status" id="" className="select2 form-control">
-                                                <option value="">Chọn</option>
-                                                <option value="1">ẩn</option>
-                                                <option value="2">hiện</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <SearchTable />
                                     <div className="col-lg-6">
                                         <div>
-                                            <label htmlFor="" className=''>
+                                            <label htmlFor="" className="">
                                                 &nbsp;
-                                            </label>
+                                        </label>
                                         </div>
                                         <button onClick={this.createData} className="btn btn-info">Add dữ liệu</button>
-                                        &nbsp;
-                                        <Link to="/product/form" className="btn btn-primary">Thêm mới sản phẩm</Link>
+                                    &nbsp;
+                                    <Link to="/product/form" className="btn btn-primary">Thêm mới sản phẩm</Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div className="row">
@@ -146,15 +126,15 @@ class Index extends Component {
                                 <div className="table-responsive">
                                     <table className="table table-dark mb-0">
                                         <thead>
-                                        <tr>
-                                            <th scope="col">Mã sản phẩm</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>trạng thái</th>
-                                            <th>Thao tác</th>
-                                        </tr>
+                                            <tr>
+                                                <th scope="col">Mã sản phẩm</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>trạng thái</th>
+                                                <th>Thao tác</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        {get_data}
+                                            {get_data}
                                         </tbody>
                                     </table>
                                 </div>

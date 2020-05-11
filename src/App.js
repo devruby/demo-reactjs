@@ -20,6 +20,7 @@ function App() {
                         <div className="container-fluid">
                             <Switch>
                                 <Route path="/product/list" exact component={ProductIndex}/>
+                                <Route path="/product/form/:id" component={ProductForm}/>
                                 <Route path="/product/form" component={ProductForm}/>
                                 <Route component={NotFound}/>
                             </Switch>
