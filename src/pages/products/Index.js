@@ -8,7 +8,11 @@ class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            'list': []
+            list: [],
+            filter: {
+                name: '',
+                status: -1
+            }
         };
     }
 
@@ -29,14 +33,14 @@ class Index extends Component {
                 'status': 1, // ẩn
             },
             {
-                'id': this.randomIds(),
-                'name': 'Tuấn anh 2',
-                'status': 2, // ẩn
+                id: this.randomIds(),
+                name: 'Tuấn anh 2',
+                status: 0, // ẩn
             },
             {
-                'id': this.randomIds(),
-                'name': 'Tuấn anh 3',
-                'status': 1, // ẩn
+                id: this.randomIds(),
+                name: 'Tuấn anh 3',
+                status: 1, // ẩn
             }
         ];
         this.setState({
@@ -64,16 +68,48 @@ class Index extends Component {
         })
     };
 
+    getLisProduct = (name, status) => {
+        this.setState({
+            'filter': {
+                name: name,
+                status: parseInt(status, 10)
+            }
+        })
+    }
+
     render() {
-        let { list } = this.state; // let list = this.state.list
+        let { list, filter } = this.state; // let list = this.state.list
         let _self = this;
+        if (filter.name) {
+            list = list.filter((list) => {
+                return list.name.toLowerCase().indexOf(filter.name) !== -1;
+            });
+        }
+
+        if (filter.status) {
+            list = list.filter((list) => {
+                if (filter.status === -1) {
+                    return list;
+                } else {
+                    // let boolen  = list.status === (filter.status === 0 ? true : false);
+                    if(list.status === filter.status){
+                        if(filter.status === 1){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                    
+                }
+            });
+        }
         let get_data = list.map(function (currentValue, index, arr) {
             return (
                 <React.Fragment key={currentValue.id}>
                     <tr>
                         <th scope="row">{currentValue.id}</th>
                         <td>{currentValue.name}</td>
-                        <td>{currentValue.status == 1 ? 'ẩn' : 'Hiện'}</td>
+                        <td>{currentValue.status === 1 ? 'Hiện' : 'ẩn'}</td>
                         <td>
                             <Link to={`/product/form/${currentValue.id}`}
                                 className="btn-light btn"> Chỉnh sửa</Link>
@@ -103,7 +139,10 @@ class Index extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <div className="row">
-                                    <SearchTable />
+                                    <SearchTable
+                                        onReceiveSearch={this.getLisProduct}
+                                    // onChangeTable={() => this.getLisProduct()} 
+                                    />
                                     <div className="col-lg-6">
                                         <div>
                                             <label htmlFor="" className="">
